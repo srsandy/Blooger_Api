@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .container
+    h1.heading Register Yourself Pls.
+    form.login(method='post', action='/red')
+      input#user(type='text', name='username', placeholder='Username')
+      br
+      input#pass(type='password', name='password', placeholder='••••••••')
+      br
+      select#role(type='select', name='role')
+        option(value='') Select role
+        option(value="Admin") Admin
+        option(value="Blogger") Blogger
+      button#submit(type='submit') SignUp
+    if errors
+      each error, i in errors
+        h5 #{error.msg}
+
+
+

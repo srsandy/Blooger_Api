@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .container
+    h1.heading Login Page
+    form.login(method='post', action='/login')
+      input#user(type='text', name='username', placeholder='Username')
+      br
+
+      input#pass(type='password', name='password', placeholder='••••••••')
+      br
+
+      button#submit(type='submit') Login
+
