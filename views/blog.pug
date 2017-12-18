@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .nav
+    h4 #{user.role} : #{user.username}
+    a(href="/dash") Dashboard
+    | &nbsp;
+    a(href="/addNew") Add New
+    | &nbsp;
+    a(href="/logout") Logout

@@ -3,6 +3,7 @@ var router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const User = require('../model/users');
+const Post = require('../model/post');
 
 //GET ROUTES for rendering pages
 router.get('/', (req, res) => {
@@ -10,11 +11,36 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-    res.render('login');
+  res.render('login');
 });
 
 router.get('/regd', (req, res) => {
-    res.render('regd');
+  res.render('regd');
+});
+
+router.get('/dash', isLoggedIn, (req, res) => {
+  Post.find({}, function(err, post) {
+    res.render('dash',{
+     user: req.user,
+     blogs: post
+    });
+  });
+});
+
+router.get('/addNew', isLoggedIn, (req, res) => {
+  res.render('addNew',{
+    user: req.user
+  });
+});
+
+router.get('/:id', (req, res) => {
+  console.log(req.params.id);
+  Post.findOne({'_id': req.params.id}, function(err, data){
+    res.render('blog',{
+      user: req.user,
+      blog: data
+    })
+  });
 });
 
 //POST ROUTE for signing up
@@ -72,6 +98,26 @@ router.post('/red', (req, res) => {
   }
 });
 
+//POST ROUTE for adding post
+router.post('/addThis', (req, res) => {
+  console.log(req.body);
+  let newPost = new Post({
+    title: req.body.title,
+    date: req.body.date,
+    author: req.body.author,
+    blog: req.body.blog
+  });
+
+  newPost.save(function(err) {
+    if(err){
+      console.log(err);
+      return;
+    }
+    req.flash('success','Your post is added');
+    res.redirect('/addNew');
+  });
+
+});
 
 //POST ROUTE for login
 router.post('/login', (req, res, next) => {

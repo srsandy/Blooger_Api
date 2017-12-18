@@ -1,0 +1,24 @@
+extends layout
+
+
+block content
+  .nav
+    h4 #{user.role} : #{user.username}
+    a(href="/dash") Dashboard
+    | &nbsp;
+    a(href="/logout") Logout
+
+  .addBlog
+    h2 Add new post
+    form(method='post', action='/addThis')
+      input(type="text", placeholder="Title of the Blog", name="title", required)
+      br
+      input(type="date", name="date", required)
+      br
+      input(type="text", placeholder="Author", value=user.username, name="author", required)
+      br
+      br
+      textarea(placeholder="Your Blog goes here", name="blog", required)
+      br
+      button#submit(type='submit') Add Post
+
