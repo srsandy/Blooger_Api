@@ -11,7 +11,7 @@ block content
     each blog in blogs
       .blog
         h3
-          a(href='/'+blog._id)
+          a(href='/blog/'+blog._id)
             |#{blog.title}
         h4 #{blog.author}
         h5 #{blog.date}

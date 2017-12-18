@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  link(rel='stylesheet', type='text/css', href='../css/index.css')
   .nav
     h4 #{user.role} : #{user.username}
     a(href="/dash") Dashboard
@@ -8,3 +9,26 @@ block content
     a(href="/addNew") Add New
     | &nbsp;
     a(href="/logout") Logout
+
+  .blogpost
+    h2 #{blog.title}
+    h4 Author: #{blog.author}
+    h5 Date: #{blog.date}
+    p #{blog.blog}
+    p #{blog._id}
+
+  .commentHere
+    form(method='post', action='/blog/'+blog._id+'/addComment')
+      textarea(name="comment", required)
+      button(type="submit")  Comment
+
+    .displayComment
+      each comment in blog.comments.reverse()
+        .comment
+          | #{comment.comment}
+          p - #{comment.by}
+
+
+
+
+

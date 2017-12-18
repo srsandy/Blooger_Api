@@ -22,7 +22,7 @@ router.get('/dash', isLoggedIn, (req, res) => {
   Post.find({}, function(err, post) {
     res.render('dash',{
      user: req.user,
-     blogs: post
+     blogs: post.reverse()
     });
   });
 });
@@ -33,8 +33,7 @@ router.get('/addNew', isLoggedIn, (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
-  console.log(req.params.id);
+router.get('/blog/:id', (req, res) => {
   Post.findOne({'_id': req.params.id}, function(err, data){
     res.render('blog',{
       user: req.user,
@@ -96,6 +95,17 @@ router.post('/red', (req, res) => {
       }
     });
   }
+});
+
+router.post('/blog/:id/addComment', (req, res) =>{
+  // console.log(req.params.id);
+  // console.log(req.body);
+  // console.log(req.user.username);
+  let comment = {comment: req.body.comment, by: req.user.username }
+  Post.update({'_id': req.params.id},{$push:{comments: comment}}, function(err, data){
+    console.log(data);
+    res.redirect('/blog/'+req.params.id);
+  });
 });
 
 //POST ROUTE for adding post
